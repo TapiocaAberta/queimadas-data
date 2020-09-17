@@ -1,6 +1,6 @@
 package io.sjcdigital.service;
 
-import static io.sjcdigital.model.Constants.STATES;
+import static io.sjcdigital.model.Constants.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -23,6 +23,8 @@ public class StateFileService extends FileService {
 	
 	public StateFileService( ) {
 		this.values = STATES;
+		this.latValues = STATE_LAT;
+		this.longValues = STATE_LONG;
 	}
 
 	@Override

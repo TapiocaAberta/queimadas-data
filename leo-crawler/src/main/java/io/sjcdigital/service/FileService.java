@@ -36,6 +36,8 @@ public abstract class FileService {
 	String dataPath;
 
     Map<String, String> values;
+    Map<String, String> latValues;
+    Map<String, String> longValues;
     
     public abstract String getType();
 
@@ -101,9 +103,9 @@ public abstract class FileService {
 				//TODO: voltar pra fazer esquema igual typevalues
 				
 				data.append(Constants.SEPARATOR);
-				data.append(Constants.STATE_LAT.get(typeKey));
+				data.append(latValues.get(typeKey));
 				data.append(Constants.SEPARATOR);
-				data.append(Constants.STATE_LONG.get(typeKey));
+				data.append(longValues.get(typeKey));
 				
 				data.append("\n");
 			}
