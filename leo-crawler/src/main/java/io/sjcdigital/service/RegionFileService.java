@@ -1,34 +1,38 @@
 package io.sjcdigital.service;
 
-import static io.sjcdigital.model.Constants.*;
+import static io.sjcdigital.model.Constants.REGIONS;
+import static io.sjcdigital.model.Constants.REGIONS_LAT;
+import static io.sjcdigital.model.Constants.REGIONS_LONG;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
 @Named("region")
 public class RegionFileService extends FileService {
-
-private static final Logger LOGGER = LoggerFactory.getLogger(RegionFileService.class);
 	
-	@Inject
-	@ConfigProperty(name = "url.region")
-	String urlRegion;
+	@ConfigProperty(name = "region")
+	String region;
 
+	@ConfigProperty(name = "url.region")
+	String url;
 	
 	public RegionFileService( ) {
 		this.values = REGIONS;
+		this.latValues = REGIONS_LAT;
+		this.longValues = REGIONS_LONG;
 	}
 
 	@Override
-	public String getType() {
-		LOGGER.info("Getting regions");
-		return urlRegion;
+	String getType() {
+		return region;
+	}
+
+	@Override
+	String getURL() {
+		return url;
 	}
 
 }

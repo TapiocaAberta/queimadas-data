@@ -48,24 +48,6 @@ public class Constants {
 											  entry("sergipe","Sergipe"), entry("tocantins","Tocantins")
 											  );
 	
-	public static final Map<String, String> REGIONS = Map.ofEntries(
-			entry("norte","Norte"),
-			entry("nordeste","Nordeste"),
-			entry("centro-oeste","Centro-Oeste"),
-			entry("sul","Sul"),
-			entry("sudeste","Sudeste"),
-			entry("amazonia_legal","Amazônia Legal"),
-			entry("vale_do_paraiba","Vale do Paraíba"),
-			entry("map","MAP") );
-	
-	public static final Map<String, String> BIOMES = Map.ofEntries(
-			entry("caatinga","Caatinga"),
-			entry("cerrado","Cerrado"),
-			entry("pantanal","Pantanal"),
-			entry("pampa","Pampa"),
-			entry("amazonia","Amazônia"),
-			entry("mata_atlantica","Mata Atlântica") );
-	
 	public static final Map<String, String> STATE_LAT = Map.ofEntries(
 			entry("acre","-8.77"),
 			entry("alagoas","-9.71"),
@@ -123,4 +105,58 @@ public class Constants {
 			entry("sao_paulo","-46.64"),
 			entry("sergipe","-37.07"), 
 			entry("tocantins","-48.25"));
+	
+	public static final Map<String, String> REGIONS = Map.ofEntries(
+			entry("norte","Norte"),
+			entry("nordeste","Nordeste"),
+			entry("centro-oeste","Centro-Oeste"),
+			entry("sul","Sul"),
+			entry("sudeste","Sudeste"),
+			entry("amazonia_legal","Amazônia Legal"),
+			entry("vale_do_paraiba","Vale do Paraíba"),
+			entry("map","MAP") );
+	
+	public static final Map<String, String> REGIONS_LAT = Map.ofEntries(
+			entry("norte","0"),
+			entry("nordeste","0"),
+			entry("centro-oeste","0"),
+			entry("sul","0"),
+			entry("sudeste","0"),
+			entry("amazonia_legal","0"),
+			entry("vale_do_paraiba","0"),
+			entry("map","0") );
+	
+	public static final Map<String, String> REGIONS_LONG = Map.ofEntries(
+			entry("norte","0"),
+			entry("nordeste","0"),
+			entry("centro-oeste","0"),
+			entry("sul","0"),
+			entry("sudeste","0"),
+			entry("amazonia_legal","0"),
+			entry("vale_do_paraiba","0"),
+			entry("map","0") );
+	
+	public static final Map<String, String> BIOMES = Map.ofEntries(
+			entry("caatinga","Caatinga"),
+			entry("cerrado","Cerrado"),
+			entry("pantanal","Pantanal"),
+			entry("pampa","Pampa"),
+			entry("amazonia","Amazônia"),
+			entry("mata_atlantica","Mata Atlântica") );
+	
+	public static final Map<String, String> BIOMES_LAT = Map.ofEntries(
+			entry("caatinga","0"),
+			entry("cerrado","0"),
+			entry("pantanal","0"),
+			entry("pampa","0"),
+			entry("amazonia","0"),
+			entry("mata_atlantica","0") );
+	
+	public static final Map<String, String> BIOMES_LONG = Map.ofEntries(
+			entry("caatinga","0"),
+			entry("cerrado","0"),
+			entry("pantanal","0"),
+			entry("pampa","0"),
+			entry("amazonia","0"),
+			entry("mata_atlantica","0") );
 }

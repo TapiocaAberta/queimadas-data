@@ -1,24 +1,23 @@
 package io.sjcdigital.service;
 
-import static io.sjcdigital.model.Constants.*;
+import static io.sjcdigital.model.Constants.STATES;
+import static io.sjcdigital.model.Constants.STATE_LAT;
+import static io.sjcdigital.model.Constants.STATE_LONG;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
 @Named("state")
 public class StateFileService extends FileService {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(StateFileService.class);
+	@ConfigProperty(name = "state")
+	String state;
 	
-	@Inject
 	@ConfigProperty(name = "url.state")
-	String urlState;
+	String url;
 
 	
 	public StateFileService( ) {
@@ -28,9 +27,13 @@ public class StateFileService extends FileService {
 	}
 
 	@Override
-	public String getType() {
-		LOGGER.info("Getting state");
-		return urlState;
+	String getType() {
+		return state;
+	}
+
+	@Override
+	String getURL() {
+		return url;
 	}
 
 }

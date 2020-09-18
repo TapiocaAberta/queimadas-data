@@ -23,11 +23,8 @@ import io.sjcdigital.model.Constants;
 @ApplicationScoped
 public abstract class FileService {
 	
-	@ConfigProperty(name = "url")
-	String url;
-	
-	@ConfigProperty(name = "url.csv")
-	String urlCsv;
+	@ConfigProperty(name = "sufix.csv")
+	String sufixCSV;
 	
 	@ConfigProperty(name = "data.read.path")
 	String readDataPath;
@@ -39,7 +36,8 @@ public abstract class FileService {
     Map<String, String> latValues;
     Map<String, String> longValues;
     
-    public abstract String getType();
+    abstract String getType();
+    abstract String getURL();
 
     public void run() {
     	getFileFromInpe();
@@ -51,7 +49,7 @@ public abstract class FileService {
 		StringBuilder dataFinal = new StringBuilder(Constants.HEADER);
 		dataFinal.append("\n");
 
-		try (Stream<Path> paths = Files.walk(Paths.get(readDataPath))) {
+		try (Stream<Path> paths = Files.walk(Paths.get(readDataPath + getType()))) {
 			
 			paths.filter(Files::isRegularFile).forEach(
 			f -> {
@@ -72,7 +70,7 @@ public abstract class FileService {
 		}
 		
 		try {
-            Files.write(Paths.get(dataPath + getType() + "sumarized.csv"), dataFinal.toString().getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get(dataPath + getType() + "_sumarized.csv"), dataFinal.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,8 +79,7 @@ public abstract class FileService {
 
 	private String createSummarizedFiles(Stream<String> lines, String filename) {
 		
-		String typeKey = filename.replace(urlCsv, "");
-		
+		String typeKey = filename.replace(sufixCSV, "");
 		StringBuilder data = new StringBuilder();
 		
 		lines.forEach(l -> {
@@ -99,8 +96,6 @@ public abstract class FileService {
 				}
 				
 				data.append(values.get(typeKey));
-				
-				//TODO: voltar pra fazer esquema igual typevalues
 				
 				data.append(Constants.SEPARATOR);
 				data.append(latValues.get(typeKey));
@@ -119,7 +114,7 @@ public abstract class FileService {
 	private void getFileFromInpe() {
 		
 		values.forEach((k,v) -> {
-			createFiles(url + getType() + k + urlCsv, k + urlCsv);
+			createFiles(getURL() + k + sufixCSV, k + sufixCSV);
 		});
 		
 	}
@@ -128,7 +123,7 @@ public abstract class FileService {
 		
 		try {
 			
-			String name = readDataPath + getType().replace("_", "") + "/";
+			String name = readDataPath + getType() + "/";
 			var directory = new File(name);
 	        
 	        if (!directory.exists()) {
