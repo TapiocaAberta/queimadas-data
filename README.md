@@ -12,5 +12,5 @@ Os gráficos com os dados serão disponibilizados em _colocar link aqui quando t
 
 # Colaboradores
 
-* [Pedro Hos](www.github.com/pedro-hos)
+* [Pedro Hos](https://github.com/pedro-hos)
 * [William Siqueira](https://github.com/jesuino)
