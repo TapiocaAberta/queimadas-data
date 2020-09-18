@@ -117,20 +117,20 @@ public class Constants {
 			entry("map","MAP") );
 	
 	public static final Map<String, String> REGIONS_LAT = Map.ofEntries(
-			entry("norte","0"),
-			entry("nordeste","0"),
-			entry("centro-oeste","0"),
-			entry("sul","0"),
+			entry("norte","-4.1870469"),
+			entry("nordeste","-9.6512517"),
+			entry("centro-oeste","-15.6517991"),
+			entry("sul","-28.0509141"),
 			entry("sudeste","0"),
 			entry("amazonia_legal","0"),
 			entry("vale_do_paraiba","0"),
 			entry("map","0") );
 	
 	public static final Map<String, String> REGIONS_LONG = Map.ofEntries(
-			entry("norte","0"),
-			entry("nordeste","0"),
-			entry("centro-oeste","0"),
-			entry("sul","0"),
+			entry("norte","-64.3391907"),
+			entry("nordeste","45.0683922"),
+			entry("centro-oeste","-58.264065"),
+			entry("sul","-57.3268427"),
 			entry("sudeste","0"),
 			entry("amazonia_legal","0"),
 			entry("vale_do_paraiba","0"),
