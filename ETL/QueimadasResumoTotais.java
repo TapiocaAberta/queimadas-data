@@ -34,7 +34,7 @@ public class QueimadasResumoTotais {
     private static final String CL_ANO = "ANO";
     private static final String CL_TYPE = "TYPE";
     private static final String CL_LAT = "LAT";
-    private static final String CL_LONG = "LAT";
+    private static final String CL_LONG = "LONG";
 
     private static final String[] CL_MONTHS = { "JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO",
             "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO" };
