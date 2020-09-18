@@ -1,30 +1,32 @@
 # leo-crawler project
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Este é um projeto feito com Quarkus para coletar os dados das queimadas disponíveis no [site do Inpe](http://queimadas.dgi.inpe.br/queimadas/portal-static/estatisticas_estados/)
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+Para saber mais sobre quarkus acesse o site: [https://quarkus.io/](https://quarkus.io/)
 
-## Running the application in dev mode
+# Executando projeto
 
-You can run your application in dev mode that enables live coding using:
+Para executar o projeto, é necessário ter **Maven** e **Java 11+** instalados em sua máquina. 
+
+Após o clone do projeto, é preciso editar o arquivo `application.properties`, alterando o valor de `data.path`, inserindo ali o local onde os arquivos serão gerados.
+
+compile o projeto com o seguinte comando:
+
 ```
-./mvnw quarkus:dev
+./mvnw clean install
 ```
 
-## Packaging and running the application
+Com o sucesso do comando a seguir, é possível executar o arquivo `leo-crawler-1.0.0-SNAPSHOT-runner.jar` presente na pasta `target`. O seguinte commando irá mostrar os argumentos disponíveis
 
-The application can be packaged using `./mvnw package`.
-It produces the `leo-crawler-1.0.0-SNAPSHOT-runner.jar` file in the `/target` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/lib` directory.
+```
+java -jar leo-crawler-1.0.0-SNAPSHOT-runner.jar --help
 
-The application is now runnable using `java -jar target/leo-crawler-1.0.0-SNAPSHOT-runner.jar`.
+Usage: leo-crawler [-abhrsV]
+  -a, --all       Get all data, biomeas, states, regions
+  -b, --biome     Get only the  biome data
+  -h, --help      Show this help message and exit.
+  -r, --region    Get only the region data
+  -s, --state     Get only the  state data
+  -V, --version   Print version information and exit.
+```
 
-## Creating a native executable
-
-You can create a native executable using: `./mvnw package -Pnative`.
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: `./mvnw package -Pnative -Dquarkus.native.container-build=true`.
-
-You can then execute your native executable with: `./target/leo-crawler-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/building-native-image.
