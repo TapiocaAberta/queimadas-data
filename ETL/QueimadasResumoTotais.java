@@ -28,13 +28,13 @@ public class QueimadasResumoTotais {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
     private static final CSVFormat CSV_TYPE = CSVFormat.DEFAULT.withFirstRecordAsHeader();
     private static final CSVFormat OUT_CSV_TYPE = CSVFormat.DEFAULT.withFirstRecordAsHeader()
-            .withQuoteMode(QuoteMode.NON_NUMERIC);
+            .withQuoteMode(QuoteMode.ALL);
 
     // Input Columns information
     private static final String CL_ANO = "ANO";
     private static final String CL_TYPE = "TYPE";
     private static final String CL_LAT = "LAT";
-    private static final String CL_LONG = "LAT";
+    private static final String CL_LONG = "LONG";
 
     private static final String[] CL_MONTHS = { "JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO",
             "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO" };
@@ -82,8 +82,8 @@ public class QueimadasResumoTotais {
         records.forEach(record -> {
             var ano = record.get(CL_ANO);
             var type = record.get(CL_TYPE);
-            var lat = record.get(CL_LAT);
-            var longi = record.get(CL_LONG);
+            var lat = record.get(CL_LAT).trim();
+            var longi = record.get(CL_LONG).trim();
             for (String month : CL_MONTHS) {
                 printTo(outPrinter, List.of(ano, month, record.get(month), type, lat, longi));
             }
