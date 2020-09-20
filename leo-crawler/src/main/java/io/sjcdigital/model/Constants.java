@@ -121,7 +121,7 @@ public class Constants {
 			entry("nordeste","-9.6512517"),
 			entry("centro-oeste","-15.6517991"),
 			entry("sul","-28.0509141"),
-			entry("sudeste","0"),
+			entry("sudeste","-19.7064653"),
 			entry("amazonia_legal","0"),
 			entry("vale_do_paraiba","0"),
 			entry("map","0") );
@@ -131,7 +131,7 @@ public class Constants {
 			entry("nordeste","45.0683922"),
 			entry("centro-oeste","-58.264065"),
 			entry("sul","-57.3268427"),
-			entry("sudeste","0"),
+			entry("sudeste","45.4661952"),
 			entry("amazonia_legal","0"),
 			entry("vale_do_paraiba","0"),
 			entry("map","0") );
