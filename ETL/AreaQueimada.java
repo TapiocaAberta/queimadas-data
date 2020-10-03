@@ -13,6 +13,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -51,7 +52,18 @@ public class AreaQueimada {
         out.println("Removing total values");
         records.stream()
             .filter(r -> !r.get(0).startsWith("Total anual"))
-            .forEach(r -> printTo(outPrinter, r.toMap().values()));
+            .map(r -> {
+                var row = new ArrayList<String>();
+                r.forEach(v -> {
+                    if (v.trim().isEmpty()) {
+                        row.add("0");
+                    } else {
+                        row.add(v);
+                    }
+                });
+                return row;
+            })
+            .forEach(row -> printTo(outPrinter, row));
 
         out.println("Finishing target CSV");    
         outPrinter.close();
