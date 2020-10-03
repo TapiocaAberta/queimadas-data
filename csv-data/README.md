@@ -25,5 +25,12 @@ Os valores das colunas do mês, contém o valor somado dos focos de incêndio de
 
 No ano de 2020, tivemos 768 focos de incêndio, no Estado do Mato Grosso. Em Agosto, tivemos 10430 e no presente mês de Setembro, 16826 focos até o dia de hoje (17/09/2020)
 
+### Area Queimada
+o CSV `area_queimada_biomas.csv` representa a area queimada em KM². Os dados foram retirados desse site do INPE:
+
+http://queimadas.dgi.inpe.br/queimadas/aq1km/
+
 Qualquer dúvida ou sugestão, não deixe de nos contatar pelo projeto, abrindo uma issue.
+
+
 
