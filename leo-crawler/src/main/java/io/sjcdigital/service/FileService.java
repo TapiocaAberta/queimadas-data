@@ -87,7 +87,6 @@ public abstract class FileService {
 
         });
         return data.toString();
-
     }
 
     private void getFileFromInpe() {
@@ -97,8 +96,6 @@ public abstract class FileService {
     }
 
     private void createFiles(final String url, final String fileName) {
-        System.out.println("Creating file for URL " + url);
-        System.out.println("Saving to " + fileName);
         try {
             var name = readDataPath + getType() + "/";
             var directory = new File(name);
