@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -18,6 +19,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public abstract class FileService {
+
 
     @ConfigProperty(name = "sufix.csv")
     String sufixCSV;
@@ -38,25 +40,14 @@ public abstract class FileService {
 
     public void run() {
         getFileFromInpe();
-        readLocalFilesAndParse();
+        readLocalFilesAndParseToCsv();
+        readLocalFilesAndParseToJson();
     }
 
-    private void readLocalFilesAndParse() {
+    private void readLocalFilesAndParseToCsv() {
         var dataFinal = new StringBuilder(Constants.HEADER);
         dataFinal.append("\n");
-        try (var paths = Files.walk(Paths.get(readDataPath + getType()))) {
-            paths.filter(Files::isRegularFile).forEach(
-                                                       f -> {
-                                                           try (var lines = Files.lines(f)) {
-                                                               dataFinal.append(createSummarizedFiles(lines, f.getFileName().toString()));
-                                                           } catch (IOException e) {
-                                                               e.printStackTrace();
-                                                           }
-                                                       });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        walkFiles((fileName, lines) -> dataFinal.append(createSummarizedCSVFiles(lines,fileName)));
 
         try {
             Files.write(Paths.get(dataPath + getType() + "_sumarized.csv"), dataFinal.toString().getBytes(StandardCharsets.UTF_8));
@@ -65,7 +56,18 @@ public abstract class FileService {
         }
     }
 
-    private String createSummarizedFiles(Stream<String> lines, String filename) {
+    private void readLocalFilesAndParseToJson() {
+        var dataFinal = new StringBuilder("[");        
+        walkFiles((fileName, lines) -> dataFinal.append(createSummarizedJsonFile(lines,fileName) + ","));
+        var json = dataFinal.subSequence(0, dataFinal.length() - 1).toString() + "]";
+        try {
+            Files.write(Paths.get(dataPath + getType() + "_sumarized.json"), json.getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String createSummarizedCSVFiles(Stream<String> lines, String filename) {
         var typeKey = filename.replace(sufixCSV, "");
         var data = new StringBuilder();
         lines.forEach(l -> {
@@ -87,6 +89,30 @@ public abstract class FileService {
 
         });
         return data.toString();
+    }
+
+    private String createSummarizedJsonFile(Stream<String> lines, String filename) {
+        var typeKey = filename.replace(sufixCSV, "");
+        var data = new StringBuilder();
+        lines.forEach(l -> {
+            if (l.matches("^([0-9]{4}).*$")) {
+                data.append("[");
+                for (int i = 0; i < l.split(",").length - 1; i++) {
+                    var str = l.split(",")[i];
+                    str = str.equals("-") ? "0" : str;
+                    data.append(toJsonStr(str));
+                    data.append(Constants.SEPARATOR);
+                }
+
+                data.append(toJsonStr(values.get(typeKey)));
+                data.append(Constants.SEPARATOR);
+                data.append(toJsonStr(latValues.get(typeKey)));
+                data.append(Constants.SEPARATOR);
+                data.append(toJsonStr(longValues.get(typeKey)));
+                data.append("],");
+            }
+        });
+        return data.subSequence(0, data.length() - 1).toString();
     }
 
     private void getFileFromInpe() {
@@ -113,5 +139,26 @@ public abstract class FileService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void walkFiles(BiConsumer<String, Stream<String>> action) {
+        try (var paths = Files.walk(Paths.get(readDataPath + getType()))) {
+            paths.filter(Files::isRegularFile).forEach(
+                                                       f -> {
+                                                           try (var lines = Files.lines(f)) {
+                                                                action.accept(f.getFileName().toString(), lines);
+                                                           } catch (IOException e) {
+                                                               e.printStackTrace();
+                                                           }
+                                                       });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       
+    }
+
+    private String toJsonStr(Object v) {
+        return "\""+v+"\"";
     }
 }
