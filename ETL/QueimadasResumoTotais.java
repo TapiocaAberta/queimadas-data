@@ -4,7 +4,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
@@ -52,11 +51,15 @@ public class QueimadasResumoTotais {
             for (String inputFileName : INPUT_FILES) {
                 var inputFile = inputDir.resolve(inputFileName);
                 if (inputFile.toFile().exists()) {
-                    var outName = inputFile.getFileName().toString().replaceAll(".csv", "") + "_db.csv";
-                    var outFile = outputDir.resolve(outName);
+                    var baseName = inputFile.getFileName().toString().replaceAll(".csv", "") + "_db";
+                    var csvOutName = baseName + ".csv";
+                    var jsonName = baseName + ".json";
+                    var csvOutFile = outputDir.resolve(csvOutName);
+                    var jsonOutFile = outputDir.resolve(jsonName);
                     System.out.println("Processing " + inputFile);
-                    generateOutCSV(inputFile, outFile);
-                    System.out.println("Generated " + outFile);
+                    generateOutFiles(inputFile, csvOutFile, jsonOutFile);
+                    System.out.println("Generated " + csvOutFile);
+                    System.out.println("Generated " + jsonOutFile);
                 } else {
                     System.out.println("File does not exist, skipping: " + inputFileName);
                 }
@@ -69,15 +72,20 @@ public class QueimadasResumoTotais {
         System.out.println("Finished!");
     }
 
-    private static void generateOutCSV(Path inputFile, Path destination) throws IOException {
+    private static void generateOutFiles(Path inputFile, Path csvDestination, Path jsonDestination) throws IOException {
         var parser = CSVParser.parse(inputFile, CHARSET, CSV_TYPE);
         var records = parser.getRecords();
 
-        Files.deleteIfExists(destination);
-        Files.createFile(destination);
+        Files.deleteIfExists(csvDestination);
+        Files.createFile(csvDestination);
 
-        var outPrinter = OUT_CSV_TYPE.print(destination, CHARSET);
-        printTo(outPrinter, OUT_COLUMNS);
+        Files.deleteIfExists(jsonDestination);
+        Files.createFile(jsonDestination);
+
+        var csvOutPrinter = OUT_CSV_TYPE.print(csvDestination, CHARSET);
+        csvPrintTo(csvOutPrinter, OUT_COLUMNS);
+
+        var jsonOut = new StringBuffer("[");
 
         records.forEach(record -> {
             var ano = record.get(CL_ANO);
@@ -85,13 +93,23 @@ public class QueimadasResumoTotais {
             var lat = record.get(CL_LAT).trim();
             var longi = record.get(CL_LONG).trim();
             for (String month : CL_MONTHS) {
-                printTo(outPrinter, List.of(ano, month, record.get(month), type, lat, longi));
+                var line = List.of(ano, month, record.get(month), type, lat, longi);
+                jsonPrintTo(jsonOut, line);
+                csvPrintTo(csvOutPrinter, line);                
             }
         });
-        outPrinter.close();
+        jsonOut.replace(jsonOut.length() - 1, jsonOut.length(), "]");
+        Files.writeString(jsonDestination, jsonOut.toString(), StandardCharsets.UTF_8);
+        csvOutPrinter.close();
     }
 
-    private static void printTo(CSVPrinter printer, List<String> values) {
+    private static void jsonPrintTo(StringBuffer jsonOut, List<String> line) {
+        jsonOut.append("[");
+        line.forEach(l -> jsonOut.append("\""+l+"\","));
+        jsonOut.replace(jsonOut.length() -1, jsonOut.length(), "],");
+    }
+
+    private static void csvPrintTo(CSVPrinter printer, List<String> values) {
         try {
             printer.printRecord(values);
         } catch (IOException e) {
