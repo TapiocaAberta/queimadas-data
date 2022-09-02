@@ -1,0 +1,48 @@
+datasets:
+- uuid: queimadas_por_bioma_mensal
+  url: https://raw.githubusercontent.com/sjcdigital/queimadas-data/master/csv-data/bioma_sumarized.json
+  columns:
+    - id: Ano
+      type: label
+    - id: JANEIRO
+      type: label
+    - id: FEVEREIRO
+      type: label
+    - id: MARÇO
+      type: label
+    - id: ABRIL
+      type: label
+    - id: MAIO
+      type: label
+    - id: JUNHO
+      type: label
+    - id: JULHO
+      type: label
+    - id: AGOSTO
+      type: label
+    - id: SETEMBRO
+      type: label
+    - id: OUTUBRO
+      type: label
+    - id: NOVEMBRO
+      type: label
+    - id: DEZEMBRO
+      type: label
+    - id: BIOMA
+      type: label
+    - id: LAT
+      type: NUMBER
+    - id: LONG
+      type: NUMBER
+
+pages:
+- components:
+    - settings:
+        type: TABLE
+        chart:
+          resizable: 'true'
+        table:
+          sort:
+            enabled: 'true'
+        dataSetLookup:
+          uuid: queimadas_por_bioma_mensal
